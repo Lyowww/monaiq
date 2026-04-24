@@ -3,13 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "workspaces": [
+    "api",
     "backend",
     "mobile",
     "shared-types"
   ],
-  "dependencies": {
-    "reflect-metadata": "^0.2.2"
-  },
   "scripts": {
     "typecheck": "npm run typecheck --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",

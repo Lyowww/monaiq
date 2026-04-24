@@ -4,7 +4,8 @@
   "outputDirectory": "public",
   "functions": {
     "api/[...route].ts": {
-      "maxDuration": 60
+      "maxDuration": 60,
+      "includeFiles": "node_modules/reflect-metadata/**"
     }
   },
   "crons": [
