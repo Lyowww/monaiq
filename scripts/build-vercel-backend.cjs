@@ -6,30 +6,48 @@ const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
 
-function findMonorepoRoot() {
-  let dir = path.resolve(__dirname, '..');
-  for (let i = 0; i < 12; i++) {
-    const backendPkg = path.join(dir, 'backend', 'package.json');
-    const sharedPkg = path.join(dir, 'shared-types', 'package.json');
-    const apiEntry = path.join(dir, 'api', '[...route].ts');
-    if (
-      fs.existsSync(backendPkg) &&
-      fs.existsSync(sharedPkg) &&
-      fs.existsSync(apiEntry)
-    ) {
+function isMonorepoRoot(dir) {
+  return (
+    fs.existsSync(path.join(dir, 'backend', 'package.json')) &&
+    fs.existsSync(path.join(dir, 'shared-types', 'package.json'))
+  );
+}
+
+function walkUpToMonorepoRoot(startDir) {
+  let dir = path.resolve(startDir);
+  for (let i = 0; i < 16; i++) {
+    if (isMonorepoRoot(dir)) {
       return dir;
     }
     const parent = path.dirname(dir);
     if (parent === dir) {
-      break;
+      return null;
     }
     dir = parent;
   }
+  return null;
+}
 
+function findMonorepoRoot() {
+  const startPoints = new Set(
+    [process.cwd(), path.resolve(__dirname, '..')].map((p) => path.resolve(p))
+  );
+
+  for (const start of startPoints) {
+    const found = walkUpToMonorepoRoot(start);
+    if (found) {
+      return found;
+    }
+  }
+
+  const cwd = process.cwd();
+  const fromScripts = path.resolve(__dirname, '..');
   throw new Error(
-    '[vercel] Monorepo root not found (expected backend/, shared-types/, and api/[...route].ts). ' +
-      'In Vercel → Project → Settings → General, set "Root Directory" to the repository root (leave empty or "."), ' +
-      'not a subfolder like api/ or backend/.'
+    '[vercel] Monorepo root not found (need `backend/package.json` and `shared-types/package.json` in the same folder). ' +
+      `Looked from cwd=${cwd} and from=${fromScripts}.\n` +
+      'Fix: Vercel → Project → Settings → General → Root Directory = repository root (empty or "."), ' +
+      'and connect a Git project that includes `backend/`, `shared-types/`, `api/`, and `scripts/`. ' +
+      'A repo that only contains one app (e.g. only `backend/`) will not work with this build.'
   );
 }
 
