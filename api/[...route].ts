@@ -3,8 +3,8 @@ import type { Request, Response } from 'express';
 import express, { type Express } from 'express';
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
-import { AppModule } from '../backend/src/app.module';
-import { configureApp } from '../backend/src/bootstrap/configure-app';
+import { AppModule } from './nestdist/app.module';
+import { configureApp } from './nestdist/bootstrap/configure-app';
 
 let cachedServer: Express | null = null;
 

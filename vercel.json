@@ -5,7 +5,7 @@
   "functions": {
     "api/[...route].ts": {
       "maxDuration": 60,
-      "includeFiles": "node_modules/{@nestjs,@openrouter,@ai-finance,express,reflect-metadata,rxjs,argon2,class-transformer,class-validator,mongoose,passport,passport-jwt,swagger-ui-express,firebase-admin,scheduler,body-parser,raw-body,bson,mongodb,mpath,mquery,sift}/**"
+      "includeFiles": "api/nestdist/**"
     }
   },
   "crons": [

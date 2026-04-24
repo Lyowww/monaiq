@@ -12,6 +12,10 @@ mobile/.env
 translation-app/.env
 translation-app/web/.env
 translation-app/web/.env.local
+
+# Vercel: copied from backend/dist during build (scripts/copy-nest-for-vercel.cjs)
+api/nestdist
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
