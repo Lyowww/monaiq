@@ -12,7 +12,7 @@ const dest = path.join(root, 'api', 'nestdist');
 
 if (!fs.existsSync(src)) {
   console.error(
-    '[vercel] backend/dist is missing. Run: npm run build --workspace backend'
+    '[vercel] backend/dist is missing. Run: npm run build --prefix backend (from monorepo root).'
   );
   process.exit(1);
 }

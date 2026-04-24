@@ -19,6 +19,6 @@
     "build:admin": "npm install --prefix admin --no-audit --no-fund && npm run build --prefix admin",
     "build:translation-ui": "npm install --prefix translation-app/web --no-audit --no-fund && npm run build --prefix translation-app/web",
     "build:shared-types": "npm run build --prefix shared-types",
-    "build:vercel-backend": "npm run build --prefix shared-types && npm run build --prefix backend && node scripts/copy-nest-for-vercel.cjs"
+    "build:vercel-backend": "node scripts/build-vercel-backend.cjs"
   }
 }
