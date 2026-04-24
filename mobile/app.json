@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "MonAIQ",
+    "slug": "monaiq",
+    "scheme": "monaiq",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/app-logo.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#F5F5F2",
+      "resizeMode": "contain"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/app-logo.png",
+          "color": "#F5F5F2",
+          "sounds": []
+        }
+      ]
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.monaiq.app"
+    },
+    "android": {
+      "package": "com.monaiq.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/app-logo.png",
+        "backgroundColor": "#F5F5F2"
+      }
+    },
+    "extra": {}
+  }
+}

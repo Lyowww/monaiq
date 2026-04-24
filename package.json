@@ -1,0 +1,23 @@
+{
+  "name": "ai-finance-coach",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "mobile",
+    "shared-types"
+  ],
+  "scripts": {
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "dev:backend": "PORT=3001 npm run start:dev --workspace backend",
+    "dev:admin": "npm run dev --prefix admin",
+    "dev:translation-ui": "npm run dev --prefix translation-app/web",
+    "dev:mobile": "npm run start --workspace mobile",
+    "build": "npm run build --workspaces --if-present",
+    "build:admin": "npm install --prefix admin --no-audit --no-fund && npm run build --prefix admin",
+    "build:translation-ui": "npm install --prefix translation-app/web --no-audit --no-fund && npm run build --prefix translation-app/web",
+    "build:shared-types": "npm run build --workspace shared-types",
+    "build:vercel-backend": "npm run build:shared-types"
+  }
+}

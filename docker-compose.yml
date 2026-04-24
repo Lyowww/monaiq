@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: ai-finance-mongodb
+    ports:
+      - "${MONGODB_PORT:-27017}:27017"
+    command: ["mongod", "--replSet", "${MONGODB_REPLICA_SET:-rs0}", "--bind_ip_all"]
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand({ ping: 1 })"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  mongo-init-replica:
+    image: mongo:7
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        mongosh --host mongodb:27017 --eval "try { rs.status() } catch (error) { rs.initiate({ _id: '${MONGODB_REPLICA_SET:-rs0}', members: [{ _id: 0, host: 'mongodb:27017' }] }) }"
+
+  backend:
+    image: node:20-alpine
+    container_name: ai-finance-backend
+    working_dir: /workspace
+    depends_on:
+      mongo-init-replica:
+        condition: service_completed_successfully
+    env_file:
+      - ./backend/.env.example
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/ai_finance?replicaSet=${MONGODB_REPLICA_SET:-rs0}
+    command: sh -c "npm install && npm run start:dev --workspace backend"
+    ports:
+      - "${BACKEND_PORT:-3000}:3000"
+    volumes:
+      - ./:/workspace
+
+volumes:
+  mongodb_data:

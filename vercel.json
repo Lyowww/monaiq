@@ -1,0 +1,15 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build:vercel-backend",
+  "functions": {
+    "api/[...route].ts": {
+      "maxDuration": 60
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/internal/cron/daily-insights",
+      "schedule": "0 6 * * *"
+    }
+  ]
+}
