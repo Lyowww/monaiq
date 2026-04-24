@@ -7,6 +7,9 @@
     "mobile",
     "shared-types"
   ],
+  "dependencies": {
+    "reflect-metadata": "^0.2.2"
+  },
   "scripts": {
     "typecheck": "npm run typecheck --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
